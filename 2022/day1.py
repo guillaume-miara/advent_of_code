@@ -69,7 +69,6 @@ def find_max_calories(calories_file_path: str) -> int:
 
 def find_top3_calories(calories_file_path: str) -> int:
 
-    rv = 0
     curr = 0
 
     relative_path = calories_file_path
