@@ -44,12 +44,6 @@ import os
 
 SCRIPT_DIR = os.path.dirname(__file__)
 
-_BASE_STRATEGY_GUIDE = {
-    "A": "Y",
-    "B": "X",
-    "C": "Z",
-}
-
 _SHAPE_SCORE = {
     "X": 1,
     "Y": 2,
