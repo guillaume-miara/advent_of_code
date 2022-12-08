@@ -78,7 +78,7 @@ def find_smallest(root, threshold):
     return min_
 
 
-def solution_1(input_file_path: str) -> int:
+def solution(input_file_path: str) -> int:
     rv = 0
     root = Node(None, "dir", "dummy", 0)
     curr = root
@@ -87,6 +87,7 @@ def solution_1(input_file_path: str) -> int:
     path = os.path.join(SCRIPT_DIR, relative_path)
 
     with open(path, "r") as input_file:
+        # Parse the file to build our directory tree
         for line in input_file:
             line = line.rstrip()
             if "cd" in line and line.split(" ")[1] == "cd":
@@ -97,15 +98,9 @@ def solution_1(input_file_path: str) -> int:
                     curr = curr.parent
                 else:
                     dir_name = line.split(" ")[-1]
-                    try:
-                        curr = next(
-                            (node for node in curr.children if node.name == dir_name)
-                        )
-                    except StopIteration:
-                        import ipdb
-
-                        ipdb.set_trace()
-                        print("PB")
+                    curr = next(
+                        (node for node in curr.children if node.name == dir_name)
+                    )
             elif "dir" in line:
                 dir_name = line.split(" ")[-1]
                 curr.children.append(Node(curr, "dir", dir_name, 0))
@@ -115,8 +110,10 @@ def solution_1(input_file_path: str) -> int:
                 file_name = line.split(" ")[-1]
                 size = line.split(" ")[0]
                 curr.children.append(Node(curr, "file", file_name, int(size)))
-
+    # Part 1
     print(measure(root))
+
+    # Part 2
     unused_space = 70000000 - root.get_size()
     required_space = 30000000 - unused_space
     print(find_smallest(root, threshold=required_space))
@@ -124,4 +121,4 @@ def solution_1(input_file_path: str) -> int:
     return rv
 
 
-solution_1(INPUT_FILE)
+solution(INPUT_FILE)
