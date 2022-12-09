@@ -17,6 +17,7 @@ INPUT_FILE = "data/day8_treehouse.txt"
 
 def count_visible_points(matrix) -> int:
     hs = 0
+    pos = None
     ROW = len(matrix)
     COL = len(matrix[0])
 
@@ -58,7 +59,7 @@ def count_visible_points(matrix) -> int:
                 b = row + 1
                 bottom_c = 0
                 while b < ROW:
-                    if matrix[t][col] < tree_height:
+                    if matrix[b][col] < tree_height:
                         bottom_c += 1
                         b += 1
                     else:
@@ -68,8 +69,18 @@ def count_visible_points(matrix) -> int:
                 scenic_score = left_c * right_c * top_c * bottom_c
 
                 hs = max(scenic_score, hs)
+                if hs == scenic_score:
+                    pos = (row, col)
+                    res = (left_c, right_c, top_c, bottom_c)
 
-    return hs
+    left_c, right_c, top_c, bottom_c = res
+    row, col = pos
+    print(matrix[row][col])
+    print(matrix[row][col - left_c : col])
+    print(matrix[row][col + 1 : col + right_c + 2])
+    print([matrix[i][col] for i in range(row - top_c, row)])
+    print([matrix[i][col] for i in range(row, row + bottom_c + 1)])
+    return hs, pos
 
 
 def highest_scenic_score(matrix) -> int:
